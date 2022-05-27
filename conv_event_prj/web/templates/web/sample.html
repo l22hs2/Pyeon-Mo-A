@@ -1,5 +1,10 @@
-{% for p in products %}
-  <h3>{{ p }} - {{ p.price }}</h3>
-{% endfor %}
-
-<h3>Hi~</h3>
+<div>
+  <form action="{% url 'articles:likes' article.pk %}" method='POST'>
+    {% csrf_token %}
+    {% if user in article.like_users.all %}
+      <input type="submit" value='좋아요 취소'>
+    {% else %}
+      <input type="submit" value='좋아요'>
+    {% endif %}
+  </form>
+</div>
