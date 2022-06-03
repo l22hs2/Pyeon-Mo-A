@@ -16,6 +16,7 @@ from web.models import Product
 # selenium to open Chrome
 driver = webdriver.Chrome()
 
+
 # 페이지 열기
 driver.get("http://gs25.gsretail.com/gscvs/ko/products/event-goods")
 
@@ -30,7 +31,8 @@ pages = driver.find_element(By.XPATH, '//div[@class="paging"]/a[@class="next2"]'
 pages = int(re.sub('[^0-9]', '', pages)) # 숫자만 추출
 
 # 페이지 수 만큼 반복
-for page in range(pages):
+for page in range(9):
+# for page in range(pages):
 
     # 상품 목록
     opo = one_plus_one.find_elements(By.XPATH, 'ul[@class="prod_list"]/li')
@@ -39,6 +41,7 @@ for page in range(pages):
     for product in opo:
         c_title = product.find_element(By.XPATH, 'div[@class="prod_box"]/p[@class="tit"]').text
         c_price = product.find_element(By.XPATH, 'div[@class="prod_box"]/p[@class="price"]/span').text
+        c_price = int(re.sub('[^0-9]', '', c_price)) # 숫자만 추출
         try:
             c_image = product.find_element(By.XPATH, 'div[@class="prod_box"]/p[@class="img"]/img').get_attribute("src")
         except:

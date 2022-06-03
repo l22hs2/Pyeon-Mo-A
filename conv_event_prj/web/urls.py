@@ -3,6 +3,6 @@ from django.urls import path
 
 
 urlpatterns = [
-    # path('', views.product),
+    path('', views.product),
     # path('<int:pk>/', views.detail)
 ]
