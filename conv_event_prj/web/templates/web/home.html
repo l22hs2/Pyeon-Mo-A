@@ -25,7 +25,7 @@
             <div class="col-4" name="cu">
                 <div class="card">
                     <div class="card-header text-center">
-                        <img style="height: 4rem; object-fit: contain;" src="{% static 'web/logo/cu.png' %}">
+                        <a href="event/cu/"><img style="height: 4rem; object-fit: contain;" src="{% static 'web/logo/cu.png' %}"></a>
                     </div>
 
                     <ul class="list-group list-group-flush">
@@ -63,17 +63,17 @@
             <div class="col-4" name="gs25">
                 <div class="card">
                     <div class="card-header text-center">
-                        <img style="height: 4rem; object-fit: contain;" src="{% static 'web/logo/gs25.png' %}">
+                        <a href="event/gs25/"><img style="height: 4rem; object-fit: contain;" src="{% static 'web/logo/gs25.png' %}"></a>
                     </div>
 
                     <ul class="list-group list-group-flush">
-                        {% for g in product %}
+                        {% for g in gs25 %}
                             <li class="list-group-item p-0">
 
                                 <img id="g_rank_{{ forloop.counter }}" src="" class="position-absolute" style="right: 0.5rem; max-width: 20%;" alt="...">
                                     <script>document.getElementById('g_rank_{{ forloop.counter }}').src=whatRank({{ forloop.counter }})</script>
                                 
-                                <a href="event/cu/{{ c.get_absolute_url }}">
+                                <a href="event/gs25/{{ g.get_absolute_url }}">
                                     <img class="card-img-top pt-4" style="height: 7rem; object-fit: contain;" src="{{ g.image }}" alt="..." />
                                 </a>
 
@@ -102,7 +102,7 @@
             <div class="col-4" name="seven">
                 <div class="card">
                     <div class="card-header text-center">
-                        <img style="height: 4rem; object-fit: contain;" src="{% static 'web/logo/seven.png' %}">
+                        <a href="event/seven/"><img style="height: 4rem; object-fit: contain;" src="{% static 'web/logo/seven.png' %}"></a>
                     </div>
                     
                     <ul class="list-group list-group-flush">
@@ -112,7 +112,7 @@
                                 <img id="s_rank_{{ forloop.counter }}" src="" class="position-absolute" style="right: 0.5rem; max-width: 20%;" alt="...">
                                     <script>document.getElementById('s_rank_{{ forloop.counter }}').src=whatRank({{ forloop.counter }})</script>
                                 
-                                <a href="event/cu/{{ c.get_absolute_url }}">
+                                <a href="event/seven/{{ s.get_absolute_url }}">
                                     <img class="card-img-top pt-4" style="height: 7rem; object-fit: contain;" src="{{ s.image }}" alt="..." />
                                 </a>
 

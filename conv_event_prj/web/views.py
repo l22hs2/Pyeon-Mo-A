@@ -1,7 +1,7 @@
 from os import environ
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from .models import Product, Cu, Gs25, Seven
+from .models import Cu, Gs25, Seven
 from django.db.models import Count
 from django.contrib import messages
 
@@ -13,13 +13,12 @@ def home(request):
             'cu': Cu.objects.all().annotate(count=Count('like_users')).order_by('-count')[:3],
             'gs25': Gs25.objects.all().annotate(count=Count('like_users')).order_by('-count')[:3],
             'seven': Seven.objects.all().annotate(count=Count('like_users')).order_by('-count')[:3],
-            'product': Product.objects.all().annotate(count=Count('like_users')).order_by('-count')[:3],
         }
     )
 
 def setStore(store):
     if store == "gs25":
-        dbName = Product
+        dbName = Gs25
     elif store == "cu":
         dbName = Cu
     elif store == "seven":
