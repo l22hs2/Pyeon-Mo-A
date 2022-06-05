@@ -65,49 +65,4 @@
     </div>
 </section>
 
-
-
-<!-- Section-->
-<section class="py-5">
-    <div class="container px-4 px-lg-5 mt-5">
-
-        {% comment %} {% for b in best %}
-            <h5>추천 상품{{ forloop.counter }} : {{ b.name }}</h5>
-        {% endfor %} {% endcomment %}
-
-        <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-md-2 row-cols-xl-3 justify-content-center">
-
-            {% for p in products %}
-                <div class="col mb-3">
-                    <div class="card pt-0 pb-0">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col-3 text-center">
-                                <a href="{{ p.get_absolute_url }}">
-                                    <img class="p-1" style="height: 5rem; object-fit: contain;" src={{ p.image }} onerror="this.onerror=null; this.src='https://hanamsport.or.kr/www/images/contents/thum_detail.jpg';" class="card-img" alt="...">
-                                </a>
-                            </div>
-                            <div class="col-8">
-                                <div class="card-body p-3">
-                                    <span class="badge badge-danger">1+1</span>
-                                    {% if p.like_users.count != 0 %}
-                                        <span class="badge badge-primary">
-                                            <i class="fa-solid fa-thumbs-up"></i>
-                                            <span class="">{{ p.like_users.count }}</span>
-                                        </span>
-                                    {% endif %}
-
-                                    <a href="{{ p.get_absolute_url }}"><p class="card-title m-0">{{ p.name }}</p></a>
-                                    <p class="card-text">{{ p.price|intcomma }}원 (개당 {% widthratio p.price 2 1 as price_ratio %}{{ price_ratio|intcomma }}원)</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-            
-
-        </div>
-    </div>
-</section>
-
 {% endblock %}

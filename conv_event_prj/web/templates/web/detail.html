@@ -25,10 +25,10 @@
             </div>
             <div class="col-md-9">
 
-                <h3 class="display-5 fw-bolder">{{ products.name }}</h3>
+                <h3 class="display-5 font-weight-light">{{ products.name }}</h3>
                 <div class="fs-5 mb-5">
                         <h2 style="display:inline;">{{ products.price|intcomma }}원</h2>
-                        <h4 style="display:inline;">(개당 {% widthratio products.price 2 1 as price_ratio %}{{ price_ratio|intcomma }}원)</h4>
+                        <h4 class="font-weight-light" style="display:inline;">(개당 {% widthratio products.price 2 1 as price_ratio %}{{ price_ratio|intcomma }}원)</h4>
                 </div>
 
                 <a href="like">
