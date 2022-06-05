@@ -3,6 +3,7 @@ from django.urls import path
 
 
 urlpatterns = [
-    path('', views.product),
-    # path('<int:pk>/', views.detail)
+    path('<str:store>/', views.product, name="index"),
+    path('<str:store>/<int:pk>/', views.detail, name="detail"),
+    path('<str:store>/<int:pk>/like/', views.like_post, name="like"),
 ]

@@ -1,5 +1,6 @@
 {% extends 'web/base.html' %}
 {% load static %}
+{% load humanize %}
 
 {% block main_area %}
 <!-- Product section-->
@@ -8,22 +9,26 @@
     <div class="container px-4 px-lg-5 my-5">
         {% if messages %}
             {% for message in messages %}
-                <div class="alert alert-warning" role="alert">{{ message }}</div>
                 
-                {% comment %} <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div> {% endcomment %}
+                <div class="alert alert-warning" role="alert">
+                    <i class="fa-solid fa-lock"></i> &nbsp;
+                    {{ message }}
+                </div>
             {% endfor %}
         {% endif %}
         
 
         <div class="row gx-4 gx-lg-5 align-items-center">
             
-            <div class="col-md-3"><img class="card-img-top mb-5 mb-md-0" src="{{ products.image }}" alt="..." /></div>
+            <div class="col-md-3">
+                <img class="card-img-top mb-5 mb-md-0" src="{{ products.image }}" alt="..." />
+            </div>
             <div class="col-md-9">
 
                 <h3 class="display-5 fw-bolder">{{ products.name }}</h3>
                 <div class="fs-5 mb-5">
-                        <h2 style="display:inline;">{{ products.price }}원</h2>
-                        <h4 style="display:inline;">(개당 {% widthratio products.price 2 1 %}원)</h4>
+                        <h2 style="display:inline;">{{ products.price|intcomma }}원</h2>
+                        <h4 style="display:inline;">(개당 {% widthratio products.price 2 1 as price_ratio %}{{ price_ratio|intcomma }}원)</h4>
                 </div>
 
                 <a href="like">

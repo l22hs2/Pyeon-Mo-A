@@ -1,54 +1,67 @@
+from os import environ
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from .models import Product
+from .models import Product, Cu, Gs25, Seven
 from django.db.models import Count
 from django.contrib import messages
 
 # Create your views here.
 
-def product(request):
-    products = Product.objects.all()
-    best = Product.objects.all().annotate(count=Count('like_users')).order_by('-count')[:3]
+def home(request):
+    return render(request, 'web/home.html',
+        {
+            'cu': Cu.objects.all().annotate(count=Count('like_users')).order_by('-count')[:3],
+            'gs25': Gs25.objects.all().annotate(count=Count('like_users')).order_by('-count')[:3],
+            'seven': Seven.objects.all().annotate(count=Count('like_users')).order_by('-count')[:3],
+            'product': Product.objects.all().annotate(count=Count('like_users')).order_by('-count')[:3],
+        }
+    )
+
+def setStore(store):
+    if store == "gs25":
+        dbName = Product
+    elif store == "cu":
+        dbName = Cu
+    elif store == "seven":
+        dbName = Seven
+
+    return dbName
+
+
+def product(request, store):
+    dbName = setStore(store)
+
+    products = dbName.objects.all()
+    best = dbName.objects.all().annotate(count=Count('like_users')).order_by('-count')[:3]
     # products = products.annotate(count=Count('like_users')).order_by('-count')
     return render(request, 'web/product.html',
         {
             'products': products,
             'best': best,
+            'store': store,
         }    
     )
     
-def detail(request, pk):
-    products = get_object_or_404(Product, pk=pk)
+def detail(request, pk, store):
+    dbName = setStore(store)
+
+    products = get_object_or_404(dbName, pk=pk)
     return render(request, 'web/detail.html',
         {
             'products': products,
         }    
     )
 
-def sample(request):
-    products = Product.objects.all()
-    return render(request, 'web/sample.html',
-        {
-            'products': products,
-        }    
-    )
+def like_post(request, pk, store):
+    dbName = setStore(store)
 
-
-# def like_post(request, post_id):
-#     post = get_object_or_404(Product, id=post_id)
-#     if request.user in post.like_users.all():
-#         post.like_users.remove(request.user)
-#     else:
-#         post.like_users.add(request.user)
-
-def like_post(request, post_id):
     if request.user.is_authenticated:
-        article = get_object_or_404(Product, pk=post_id)
+        product = get_object_or_404(dbName, pk = pk)
 
-        if article.like_users.filter(pk=request.user.pk).exists():
-            article.like_users.remove(request.user)
+        if product.like_users.filter(pk=request.user.pk).exists():
+            product.like_users.remove(request.user)
         else:
-            article.like_users.add(request.user)
-        return redirect('detail', post_id)
+            product.like_users.add(request.user)
+        return redirect('detail', store, pk)
     messages.warning(request, '로그인이 필요한 작업입니다')
-    return redirect('detail', post_id) # 로그인 요청 alert 추가
+    return redirect('detail', store, pk)

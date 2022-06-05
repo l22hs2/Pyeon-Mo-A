@@ -1,0 +1,170 @@
+{% extends 'web/base.html' %}
+
+{% block main_area %}
+<section class="py-5">
+    <div class="container px-4 px-lg-5 my-5">
+
+        {% comment %} <div class="row">
+            <div class="col bg-warning mr-auto">
+                <h1></h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-2 mr-auto bg-primary">
+            </div>
+                <h1></h1>
+            <div class="col-3 mr-auto bg-secondary">
+            </div>
+                <h1></h1>
+            <div class="col-3 mr-auto bg-success">
+            </div>
+                <h1></h1>
+            <div class="col-3 bg-danger">
+            </div>
+        </div> {% endcomment %}
+
+        <div class="row align-items-center">
+            {% comment %} <div class="col-2 mr-auto text-center">
+            </div> {% endcomment %}
+
+            <div class="col-4 text-center">
+                <img style="max-width: 45%;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/CU_BI_%282017%29.svg/220px-CU_BI_%282017%29.svg.png">
+            </div>
+
+            <div class="col-4 text-center">
+                <img style="max-width: 50%;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/GS25_bi_%282019%29.svg/1200px-GS25_bi_%282019%29.svg.png">
+            </div>
+                
+            <div class="col-4 text-center">
+                <img style="max-width: 80%;" src="https://blog.kakaocdn.net/dn/Rgfiv/btqwQkfumoF/MfSKFInBzIPjwXKm2azE81/img.jpg">
+            </div>
+        </div>
+
+        <div class="row align-items-center mt-3">
+
+            <script>
+                function whatRank(rank) {
+                    if(rank == 1) {
+                        return "https://w.namu.la/s/82a35086384da5092ab738e87ccaa2be76225de3bb9d1cb20db6778dd58579cac6482cf244e1edf797bf967d5a38e4f773b4a851fe8acde7cf6211290384611cc80695a3a265dbae95029f9bd02ac60b91d95c077ff16d7d0a14522ce1ca711a";
+                    }
+                    else if(rank == 2) {
+                        return "https://w.namu.la/s/52f57c7e7e8a2823a5e13aee300f70203c3b602e525fb6c8edefc4f120587d87255bf6abaa3d6f1b9a578f872ee51c8dead94d91710f2ca10e2f2eee87dcb25cc20ac951d182540200e652fa13658727c421ecffafa65799a23004ba8124e7ab";
+                    }
+                    else if(rank == 3) {
+                        return "https://w.namu.la/s/cfb86b0d6ea99adffa212bf3077e40100dc6de830c5bdb3f3feda303d320d5f4da3687b7a1cbed3d2c83bf53b4983ff1de3c017b136a7d2c90a735af8aaaf4af0e701552bcb0586047be49790a0e0ee1017f3779c3e2beea7c26058f32980536";
+                    }
+                }
+            </script>
+
+                <div class="col-4" name="cu">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            <img style="max-width: 45%;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/CU_BI_%282017%29.svg/220px-CU_BI_%282017%29.svg.png">
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            {% for c in cu %}
+                                <li class="list-group-item p-0">
+                                    <img id="c2_rank_{{ forloop.counter }}" src="" class="position-absolute" style="right: 0.5rem; max-width: 20%;" alt="...">
+                                        <script>document.getElementById('c2_rank_{{ forloop.counter }}').src=whatRank({{ forloop.counter }})</script>
+                                    
+                                        <div class="p-3">
+                                        <img class="card-img-top pt-3 px-1" style="height: 8rem; object-fit: contain;" src="{{ c.image }}" alt="...">
+                                        <p class="card-title m-0">{{ c.name }}</p>
+                                        <p class="card-text">{{ c.price }}</p>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <div class="col-4" name="gs25">
+                    {% for c in product %}
+                        <div class="card mt-3">
+                                <img id="g_rank_{{ forloop.counter }}" src="" class="position-absolute" style="right: 0.5rem; max-width: 20%;" alt="...">
+                                    <script>document.getElementById('g_rank_{{ forloop.counter }}').src=whatRank({{ forloop.counter }})</script>
+
+                                <img class="card-img-top pt-3 px-1" style="height: 8rem; object-fit: contain;" src="{{ c.image }}" alt="...">
+                                <div class="card-body">
+                                    <p class="card-title m-0">{{ c.name }}</p>
+                                    <p class="card-text">{{ c.price }}</p>
+                                </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="col-4" name="seven">
+                    {% for c in seven %}
+                        <div class="card mt-3">
+                                <img id="s_rank_{{ forloop.counter }}" src="" class="position-absolute" style="right: 0.5rem; max-width: 20%;" alt="...">
+                                    <script>document.getElementById('s_rank_{{ forloop.counter }}').src=whatRank({{ forloop.counter }})</script>
+
+                                <img class="card-img-top pt-3 px-1" style="height: 8rem; object-fit: contain;" src="{{ c.image }}" alt="...">
+                                <div class="card-body">
+                                    <p class="card-title m-0">{{ c.name }}</p>
+                                    <p class="card-text">{{ c.price }}</p>
+                                </div>
+                        </div>
+                    {% endfor %}
+                </div>
+        </div>
+
+        {% comment %} <div class="row align-items-center mt-3">
+            <div class="col-2 mr-auto"><h1>2위</h1></div>
+            
+            <div class="col-3 mr-auto card ">
+                <img src="" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">상품명</h5>
+                    <p class="card-text">가격</p>
+                </div>
+            </div>
+            <div class="col-3 mr-auto card ">
+                <img src="" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">상품명</h5>
+                    <p class="card-text">가격</p>
+                </div>
+            </div>
+            <div class="col-3 card">
+                <img src="" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">상품명</h5>
+                    <p class="card-text">가격</p>
+                </div>
+            </div>
+    </div>
+
+    <div class="row align-items-center mt-3">
+        <div class="col-2 mr-auto"><h1>3위</h1></div>
+        
+        <div class="col-3 mr-auto card ">
+            <img src="" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">상품명</h5>
+                <p class="card-text">가격</p>
+            </div>
+        </div>
+        <div class="col-3 mr-auto card ">
+            <img src="" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">상품명</h5>
+                <p class="card-text">가격</p>
+            </div>
+        </div>
+        <div class="col-3 card">
+            <img src="" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">상품명</h5>
+                <p class="card-text">가격</p>
+            </div>
+        </div> {% endcomment %}
+</div>
+        
+    </div>
+
+    
+</section>
+{% endblock %}
