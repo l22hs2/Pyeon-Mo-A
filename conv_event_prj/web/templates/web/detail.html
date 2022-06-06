@@ -1,6 +1,7 @@
 {% extends 'web/base.html' %}
 {% load static %}
 {% load humanize %}
+{% load crispy_forms_tags %}
 
 {% block main_area %}
 <!-- Product section-->
@@ -45,6 +46,85 @@
                     {% endif %}
                 </a>
             </div>
+
+
+            <div id="comment-area">
+                </article>
+                <!-- Comments section-->
+                <section class="mb-5">
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <!-- Comment form-->
+                            
+                            <div class="comment-area">
+                                <div class="card my-4">
+                                    <h5 class="card-header">Leave a Comment:</h5>
+                                    <div class="card-body">
+                                        {% if user.is_authenticated %}
+                                        <form id="comment-form" method="POST" action="new_comment/">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                {{ comment_form }}
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </form>
+                                        {% else %}
+                                            <a role="button" class="btn btn-outline-dark btn-block btn-sm" href="#" data-toggle="modal" data-target="#loginModal">Log in and leave a comment</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+ 
+                                    {% if store == "cu" %}
+                                        {% if products.cu_comment_set.exists %}
+                                            <h5 class="card-header">Leave a Comment:</h5>
+                                            {% for comment in products.cu_comment_set.iterator %}
+                                                <div class="media mb-4" id="comment-{{ comment.pk }}">
+                                                    <img class="d-flex mr-3 rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="">
+                                                    <div class="media-body">
+                                                        <h5 class="mt-0">{{ comment.author.username }} &nbsp;&nbsp;<small class="text-muted">{{ comment.created_at }}</small></h5>
+                                                        <p>{{ comment.content }}</p>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        {% endif %}
+
+                                    {% elif store == "gs25" %}
+                                        {% if products.gs25_comment_set.exists %}
+                                            <h5 class="card-header">Leave a Comment:</h5>
+                                            {% for comment in products.gs25_comment_set.iterator %}
+                                                <div class="media mb-4" id="comment-{{ comment.pk }}">
+                                                    <img class="d-flex mr-3 rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="">
+                                                    <div class="media-body">
+                                                        <h5 class="mt-0">{{ comment.author.username }} &nbsp;&nbsp;<small class="text-muted">{{ comment.created_at }}</small></h5>
+                                                        <p>{{ comment.content }}</p>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        {% endif %}
+
+                                    {% elif store == "seven" %}
+                                        {% if products.seven_comment_set.exists %}
+                                            <h5 class="card-header">Leave a Comment:</h5>
+                                            {% for comment in products.seven_comment_set.iterator %}
+                                                <div class="media mb-4" id="comment-{{ comment.pk }}">
+                                                    <img class="d-flex mr-3 rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="">
+                                                    <div class="media-body">
+                                                        <h5 class="mt-0">{{ comment.author.username }} &nbsp;&nbsp;<small class="text-muted">{{ comment.created_at }}</small></h5>
+                                                        <p>{{ comment.content }}</p>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endif %}
+
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            
         </div>
     </div>
 </section>

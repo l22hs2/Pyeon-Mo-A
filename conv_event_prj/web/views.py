@@ -1,9 +1,13 @@
 from os import environ
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+
 from .models import Cu, Gs25, Seven
 from django.db.models import Count
 from django.contrib import messages
+
+from .forms import Cu_CommentForm, Gs25_CommentForm, Seven_CommentForm
+from django.core.exceptions import PermissionDenied
 
 # Create your views here.
 
@@ -26,6 +30,15 @@ def setStore(store):
 
     return dbName
 
+def setFrom(store):
+    if store == "gs25":
+        CommentForm = Gs25_CommentForm
+    elif store == "cu":
+        CommentForm = Cu_CommentForm
+    elif store == "seven":
+        CommentForm = Seven_CommentForm
+    
+    return CommentForm
 
 def product(request, store):
     dbName = setStore(store)
@@ -48,6 +61,8 @@ def detail(request, pk, store):
     return render(request, 'web/detail.html',
         {
             'products': products,
+            'store': store,
+            'comment_form': setFrom(store),
         }    
     )
 
@@ -64,3 +79,23 @@ def like_post(request, pk, store):
         return redirect('detail', store, pk)
     messages.warning(request, '로그인이 필요한 작업입니다')
     return redirect('detail', store, pk)
+
+def new_comment(request, pk, store):
+    dbName = setStore(store)
+
+    if request.user.is_authenticated:
+        post = get_object_or_404(dbName, pk=pk)
+
+        if request.method == "POST":
+
+            comment_form = setFrom(store)(request.POST)
+            if comment_form.is_valid():
+                comment = comment_form.save(commit=False)
+                comment.product = post
+                comment.author = request.user
+                comment.save()
+                return redirect('detail', store, pk)
+            else:
+                return redirect('detail', store, pk)
+        else:
+            raise PermissionDenied
