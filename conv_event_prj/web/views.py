@@ -2,7 +2,7 @@ from os import environ
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .models import Cu, Gs25, Seven
+from .models import Cu, Cu_comment, Gs25, Seven
 from django.db.models import Count
 from django.contrib import messages
 
@@ -99,3 +99,12 @@ def new_comment(request, pk, store):
                 return redirect('detail', store, pk)
         else:
             raise PermissionDenied
+
+def delete_comment(request, pkk, store, pks):
+    comment = get_object_or_404(Cu_comment, pk=pks)
+    product = comment.product
+    if request.user.is_authenticated and request.user == comment.author:
+        comment.delete()
+        return redirect('detail', store, pkk)
+    else:
+        raise PermissionDenied

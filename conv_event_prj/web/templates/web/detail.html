@@ -64,7 +64,7 @@
                                         <form id="comment-form" method="POST" action="new_comment/">
                                             {% csrf_token %}
                                             <div class="form-group">
-                                                {{ comment_form }}
+                                                {{ comment_form | crispy }}
                                             </div>
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                         </form>
@@ -76,13 +76,22 @@
  
                                     {% if store == "cu" %}
                                         {% if products.cu_comment_set.exists %}
-                                            <h5 class="card-header">Leave a Comment:</h5>
+                                            <h5 class="card-header">댓글(n)</h5>
                                             {% for comment in products.cu_comment_set.iterator %}
                                                 <div class="media mb-4" id="comment-{{ comment.pk }}">
                                                     <img class="d-flex mr-3 rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="">
                                                     <div class="media-body">
                                                         <h5 class="mt-0">{{ comment.author.username }} &nbsp;&nbsp;<small class="text-muted">{{ comment.created_at }}</small></h5>
                                                         <p>{{ comment.content }}</p>
+                                                        <p>[{{ comment.pk }}]</p>
+                                                        
+                                                        {% if user == comment.author %}
+                                                            <form action="delete_comment/{{ comment.pk }}" method="POST" class="d-inline">
+                                                                {% csrf_token %}
+                                                                <input type="submit" value="DELETE">
+                                                            </form>
+                                                        {% endif %}
+
                                                     </div>
                                                 </div>
                                             {% endfor %}
