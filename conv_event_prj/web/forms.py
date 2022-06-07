@@ -5,6 +5,15 @@ class Cu_CommentForm(forms.ModelForm):
     class Meta:
         model = Cu_comment
         fields = ('content',)
+        label = '댓글'
+        widgets = {
+                    'content': forms.Textarea(
+                        attrs={
+                            'class': 'form-control',
+                            'style': 'width: 100%; height: 6.25em; resize: none;',
+                        }
+                    ),
+                }
 
 class Gs25_CommentForm(forms.ModelForm):
     class Meta:

@@ -18,20 +18,19 @@
             {% endfor %}
         {% endif %}
         
-
-        <div class="row gx-4 gx-lg-5 align-items-center">
+        <div class="row align-items-center">
             
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <img class="card-img-top mb-5 mb-md-0" src="{{ products.image }}" alt="..." />
             </div>
-            <div class="col-md-9">
+            <div class="col-md-8">
 
                 <h3 class="display-5 font-weight-light">{{ products.name }}</h3>
                 <div class="fs-5 mb-5">
                         <h2 style="display:inline;">{{ products.price|intcomma }}원</h2>
                         <h4 class="font-weight-light" style="display:inline;">(개당 {% widthratio products.price 2 1 as price_ratio %}{{ price_ratio|intcomma }}원)</h4>
                 </div>
-
+                <p class="font-weight-light" style="display:inline;">이 상품 추천하기</p>&nbsp;
                 <a href="like">
                     {% if user in products.like_users.all %}
                         <button type="button" class="btn btn-primary">
@@ -46,95 +45,95 @@
                     {% endif %}
                 </a>
             </div>
-
-
-            <div id="comment-area">
-                </article>
-                <!-- Comments section-->
-                <section class="mb-5">
-                    <div class="card bg-light">
-                        <div class="card-body">
-                            <!-- Comment form-->
-                            
-                            <div class="comment-area">
-                                <div class="card my-4">
-                                    <h5 class="card-header">Leave a Comment:</h5>
-                                    <div class="card-body">
-                                        {% if user.is_authenticated %}
-                                        <form id="comment-form" method="POST" action="new_comment/">
-                                            {% csrf_token %}
-                                            <div class="form-group">
-                                                {{ comment_form | crispy }}
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                        </form>
-                                        {% else %}
-                                            <a role="button" class="btn btn-outline-dark btn-block btn-sm" href="#" data-toggle="modal" data-target="#loginModal">Log in and leave a comment</a>
-                                        {% endif %}
-                                    </div>
-                                </div>
- 
-                                    {% if store == "cu" %}
-                                        {% if products.cu_comment_set.exists %}
-                                            <h5 class="card-header">댓글(n)</h5>
-                                            {% for comment in products.cu_comment_set.iterator %}
-                                                <div class="media mb-4" id="comment-{{ comment.pk }}">
-                                                    <img class="d-flex mr-3 rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="">
-                                                    <div class="media-body">
-                                                        <h5 class="mt-0">{{ comment.author.username }} &nbsp;&nbsp;<small class="text-muted">{{ comment.created_at }}</small></h5>
-                                                        <p>{{ comment.content }}</p>
-                                                        <p>[{{ comment.pk }}]</p>
-                                                        
-                                                        {% if user == comment.author %}
-                                                            <form action="delete_comment/{{ comment.pk }}" method="POST" class="d-inline">
-                                                                {% csrf_token %}
-                                                                <input type="submit" value="DELETE">
-                                                            </form>
-                                                        {% endif %}
-
-                                                    </div>
-                                                </div>
-                                            {% endfor %}
-                                        {% endif %}
-
-                                    {% elif store == "gs25" %}
-                                        {% if products.gs25_comment_set.exists %}
-                                            <h5 class="card-header">Leave a Comment:</h5>
-                                            {% for comment in products.gs25_comment_set.iterator %}
-                                                <div class="media mb-4" id="comment-{{ comment.pk }}">
-                                                    <img class="d-flex mr-3 rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="">
-                                                    <div class="media-body">
-                                                        <h5 class="mt-0">{{ comment.author.username }} &nbsp;&nbsp;<small class="text-muted">{{ comment.created_at }}</small></h5>
-                                                        <p>{{ comment.content }}</p>
-                                                    </div>
-                                                </div>
-                                            {% endfor %}
-                                        {% endif %}
-
-                                    {% elif store == "seven" %}
-                                        {% if products.seven_comment_set.exists %}
-                                            <h5 class="card-header">Leave a Comment:</h5>
-                                            {% for comment in products.seven_comment_set.iterator %}
-                                                <div class="media mb-4" id="comment-{{ comment.pk }}">
-                                                    <img class="d-flex mr-3 rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="">
-                                                    <div class="media-body">
-                                                        <h5 class="mt-0">{{ comment.author.username }} &nbsp;&nbsp;<small class="text-muted">{{ comment.created_at }}</small></h5>
-                                                        <p>{{ comment.content }}</p>
-                                                    </div>
-                                                </div>
-                                            {% endfor %}
-                                        {% endif %}
-                                    {% endif %}
-
-
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-
-            
         </div>
+        
+        <div id="comment-area">
+        </article>
+        <!-- Comments section-->
+        <section class="mb-5">
+            <div>
+                <div class="card-body">
+                    <!-- Comment form-->
+                    <div class="comment-area">
+                        
+                            {% if store == "cu" %}
+                                {% if products.cu_comment_set.exists %}
+                                    <div class="mb-4">
+                                        <i class="fa-solid fa-comment"></i>&nbsp;<p style="display:inline;">댓글()</p>
+                                    </div>
+                                    {% for comment in products.cu_comment_set.iterator %}
+                                        <div class="media mb-4" id="comment-{{ comment.pk }}">
+                                            <img class="d-flex mr-3 rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="">
+                                            <div class="media-body border-bottom border-gray">
+                                                <p style="display:inline;" class="m-0 font-weight-bold">{{ comment.author.username }}&nbsp;<small class="text-muted">{{ comment.created_at|date:'Y-m-d' }}</small></p>
+
+                                                {% if user == comment.author %}
+                                                    <form action="delete_comment/{{ comment.pk }}" method="POST" class="d-inline">
+                                                        {% csrf_token %}
+                                                        <button type="submit" class="btn btn-link">[삭제]</button>
+                                                    </form>
+                                                {% endif %}
+
+                                                <p>{{ comment.content }}</p>
+
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+                            {% elif store == "gs25" %}
+                                {% if products.gs25_comment_set.exists %}
+                                    <h5 class="card-header">Leave a Comment:</h5>
+                                    {% for comment in products.gs25_comment_set.iterator %}
+                                        <div class="media mb-4" id="comment-{{ comment.pk }}">
+                                            <img class="d-flex mr-3 rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="">
+                                            <div class="media-body">
+                                                <h5 class="mt-0">{{ comment.author.username }} &nbsp;&nbsp;<small class="text-muted">{{ comment.created_at }}</small></h5>
+                                                <p>{{ comment.content }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+                            {% elif store == "seven" %}
+                                {% if products.seven_comment_set.exists %}
+                                    <h5 class="card-header">Leave a Comment:</h5>
+                                    {% for comment in products.seven_comment_set.iterator %}
+                                        <div class="media mb-4" id="comment-{{ comment.pk }}">
+                                            <img class="d-flex mr-3 rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="">
+                                            <div class="media-body">
+                                                <p class="mt-0">{{ comment.author.username }} &nbsp;&nbsp;<small class="text-muted">{{ comment.created_at }}</small></p>
+                                                <p>{{ comment.content }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+
+                            {% if user.is_authenticated %}
+                                    <form id="comment-form" method="POST" action="new_comment/">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            {{ comment_form }}
+                                        </div>
+                                        <div class="ml-auto">
+                                            <button type="submit" class="btn btn-primary">작성하기</button>
+                                        </div>
+                                    </form>
+    
+                            {% else %}
+                                <a role="button" class="btn btn-outline-dark btn-block btn-sm" href="#" data-toggle="modal" data-target="#loginModal">Log in and leave a comment</a>
+                            {% endif %}
+
+                            
+                            </div>
+                    </div>
+                </div>
+            </div>
+            
+        </section>
+    </div>
+
     </div>
 </section>
 
