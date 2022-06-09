@@ -2,22 +2,23 @@ from os import environ
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .models import Cu, Gs25, Product, Seven, Comment
+from .models import Cu, Cu_comment, Gs25, Gs25_comment, Seven, Seven_comment
 from django.db.models import Count
 from django.contrib import messages
 
-from .forms import CommentForm
+from .forms import Cu_CommentForm, Gs25_CommentForm, Seven_CommentForm
 from django.core.exceptions import PermissionDenied
 
 # Create your views here.
 
 def home(request):
+    all_comment = Cu_comment.objects.all().union(Gs25_comment.objects.all()).union(Seven_comment.objects.all())
     return render(request, 'web/home.html',
         {
-            'cu': Product.objects.filter(store="CU").annotate(count=Count('like_users')).order_by('-count')[:3],
-            'gs25': Product.objects.filter(store="GS25").annotate(count=Count('like_users')).order_by('-count')[:3],
-            'seven': Product.objects.filter(store="Seven").annotate(count=Count('like_users')).order_by('-count')[:3],
-            'recent_comment': Comment.objects.all().order_by('-created_at')[:5]
+            'cu': Cu.objects.all().annotate(count=Count('like_users')).order_by('-count')[:3],
+            'gs25': Gs25.objects.all().annotate(count=Count('like_users')).order_by('-count')[:3],
+            'seven': Seven.objects.all().annotate(count=Count('like_users')).order_by('-count')[:3],
+            'all_comment': all_comment.order_by('-created_at')[:5]
         }
     )
 
@@ -52,44 +53,46 @@ def setComment(store):
     return CommentForm
 
 def product(request, store):
-
-    products = Product.objects.filter(store=store)
+    dbName = setStore(store)
 
     sort = request.GET.get('sort','')
-
-    if sort:
-        if sort == 'price_low':
-            products = products.order_by('price')
-        elif sort == 'price_high':
-            products = products.order_by('-price')
-        elif sort == 'like':
-            products = products.annotate(count=Count('like_users')).order_by('-count')
-
+    if sort == 'price_low':
+        products = dbName.objects.all().order_by('price')
+    elif sort == 'price_high':
+        products = dbName.objects.all().order_by('-price')
+    elif sort == 'like':
+        products = dbName.objects.all().annotate(count=Count('like_users')).order_by('-count')
+    else:
+        products = dbName.objects.all()
+        
+    best = dbName.objects.all().annotate(count=Count('like_users')).order_by('-count')[:3]
+    # products = products.annotate(count=Count('like_users')).order_by('-count')
     return render(request, 'web/product.html',
         {
             'products': products,
-            'count': products.count(),
+            'best': best,
             'store': store,
         }    
     )
     
 def detail(request, pk, store):
+    dbName = setStore(store)
 
-    # products = Product.objects.get(pk=pk)
-    products = get_object_or_404(Product, pk=pk)
+    products = get_object_or_404(dbName, pk=pk)
     return render(request, 'web/detail.html',
         {
             'products': products,
             'store': store,
-            'comment_form': CommentForm,
-            'comment_count' : Comment.objects.filter(product=pk).count(),
+            'comment_form': setFrom(store),
+            'comment_model' : setComment(store).objects.filter(product=pk).count(),
         }    
     )
 
 def like_post(request, pk, store):
+    dbName = setStore(store)
 
     if request.user.is_authenticated:
-        product = get_object_or_404(Product, pk = pk)
+        product = get_object_or_404(dbName, pk = pk)
 
         if product.like_users.filter(pk=request.user.pk).exists():
             product.like_users.remove(request.user)
@@ -100,13 +103,14 @@ def like_post(request, pk, store):
     return redirect('detail', store, pk)
 
 def new_comment(request, pk, store):
+    dbName = setStore(store)
 
     if request.user.is_authenticated:
-        post = get_object_or_404(Product, pk=pk)
+        post = get_object_or_404(dbName, pk=pk)
 
         if request.method == "POST":
 
-            comment_form = CommentForm(request.POST)
+            comment_form = setFrom(store)(request.POST)
             if comment_form.is_valid():
                 comment = comment_form.save(commit=False)
                 comment.product = post
@@ -118,27 +122,11 @@ def new_comment(request, pk, store):
         else:
             raise PermissionDenied
 
-def delete_comment(request, pk, store, pks):
-    comment = get_object_or_404(Comment, pk=pks)
-    # product = comment.product
+def delete_comment(request, pkk, store, pks):
+    comment = get_object_or_404(Cu_comment, pk=pks)
+    product = comment.product
     if request.user.is_authenticated and request.user == comment.author:
         comment.delete()
-        return redirect('detail', store, pk)
+        return redirect('detail', store, pkk)
     else:
         raise PermissionDenied
-
-
-def search(request):
-    products = Product.objects.all()
-
-    q = request.POST.get('q', "") 
-    products = products.filter(name__icontains=q)
-
-    return render(request, 'web/product.html',
-        {
-            'products': products,
-            'count': products.count(),
-            'isSearch': True,
-            'q': q,
-        }    
-    )

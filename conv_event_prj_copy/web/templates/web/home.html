@@ -5,7 +5,6 @@
 {% block title %}편모아{% endblock %}
 
 {% block main_area %}
-
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-2 mb-5">
  
@@ -22,78 +21,61 @@
                 }
             }
         </script>
-
-        <form action="{% url 'search' %}" method="post">
-            {% csrf_token %}
-            <div class="container p-0">
-                <div class="col w-50 p-0" style="float: none; margin:0 auto;">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="상품명을 입력해 주세요." name="q" value="{{ q }}" aria-describedby="button-addon2">
-                        <div class="input-group-append">
-                        <button class="btn btn-outline-primary" type="submit" id="button-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>
-                        </div>
-                    </div>
+            <div class="input-group mb-5" style="width: 50%">
+                <input type="text" class="form-control" placeholder="상품명을 입력해주세요. ">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
                 </div>
             </div>
-        </form>
         
-        {% if recent_comment %}
+        {% if all_comment %}
         
-        <div>
-            <h3><b>최근 댓글</b></h3>
-        </div>
+        <h3 class="">
+            <b>최근 댓글</b>
+        </h3>
 
-        <table class="table border-bottom">
+        <table class="table">
             <thead>
                 <tr class="bg-light">
                     <th style="text-align: center" scope="col">편의점</th>
                     <th style="text-align: center" scope="col">상품명</th>
-                    <th style="text-align: center" scope="col">내용</th>
+                    <th style="text-align: center" scope="col">댓글</th>
                 </tr>
             </thead>
-            {% for rc in recent_comment %}
-            <tbody>
-                <tr class="p-0" style="text-align: center">
-                    <td class="align-middle" style="width: 15%">{{ rc.get_store_name }}</td>
-                    <td class="align-middle" style="width: 30%"><a class="text-body" href="event/{{ rc.get_store_name }}/{{ rc.get_absolute_url }}">{{ rc.get_product_name }}</a></td>
-                    <td class="align-middle" style="width: 55%">{{ rc.content }}</td>
-                </tr>
-            {% endfor %}    
-            </tbody>
+                {% for ac in all_comment %}
+                <tbody>
+                    <tr class="p-0" style="text-align: center">
+                        <td class="align-middle" style="width: 15%">{{ ac.store_name }}</td>
+                        <td class="align-middle" style="width: 30%"><a href="event/{{ ac.store_name }}/{{ ac.get_absolute_url }}">{{ ac.product }}</a></td>
+                        <td class="align-middle" style="width: 55%">{{ ac.content }}</td>
+                    </tr>
+                {% endfor %}    
+                </tbody>
 
         </table>
 
-        {% comment %} <hr> {% endcomment %}
+        <hr>
         {% endif %}
-
         
         
         <h3 style="text-align: center" class="mt-5">
-            <b>편의점 별 추천 BEST 3</b>
+            <b>편의점 별 Best3</b>
         </h3>
 
-        <div class="container p-0">
+        <div class="container">
 
-            <div class="row row row-cols-1 row-cols-sm-1 row-cols-md-3 align-items-center mt-3 mx-0">
+            <div class="row row row-cols-1 row-cols-sm-1 row-cols-md-3 align-items-center mt-3 mx-3">
 
-                <div class="col p-0" name="cu">
+                <div class="col" name="cu">
                     <div class="card">
                         <div class="card-header text-center">
-                            <a href="event/CU/"><img style="height: 4rem; object-fit: contain;" src="{% static 'web/logo/cu.png' %}"></a>
+                            <a href="event/cu/"><img style="height: 4rem; object-fit: contain;" src="{% static 'web/logo/cu.png' %}"></a>
                         </div>
 
                         <ul class="list-group list-group-flush">
                             {% for c in cu %}
                                 <li class="list-group-item p-0">
-                                    <div class="badge bg-danger text-white position-absolute" style="top: 1rem; right: 1rem">1+1</div>
-                                    {% if c.like_users.count != 0 %}
-                                        <div class="badge bg-primary text-white position-absolute" style="top: 2.5rem; right: 1rem">
-                                            <i class="fa-solid fa-thumbs-up"></i>
-                                            <span class="">{{ c.like_users.count }}</span>
-                                        </div>
-                                    {% endif %}
-
-                                    <img id="c_rank_{{ forloop.counter }}" class="position-absolute" style="left: 0.5rem; max-width: 20%;" alt="...">
+                                    <img id="c_rank_{{ forloop.counter }}" class="position-absolute" style="right: 0.5rem; max-width: 20%;" alt="...">
                                         <script>document.getElementById('c_rank_{{ forloop.counter }}').src=whatRank({{ forloop.counter }})</script>
                                     
                                     <a href="event/cu/{{ c.get_absolute_url }}">
@@ -122,27 +104,20 @@
                     </div>
                 </div>
 
-                <div class="col p-0" name="gs25">
+                <div class="col" name="gs25">
                     <div class="card">
                         <div class="card-header text-center">
-                            <a href="event/GS25/"><img style="height: 4rem; object-fit: contain;" src="{% static 'web/logo/gs25.png' %}"></a>
+                            <a href="event/gs25/"><img style="height: 4rem; object-fit: contain;" src="{% static 'web/logo/gs25.png' %}"></a>
                         </div>
 
                         <ul class="list-group list-group-flush">
                             {% for g in gs25 %}
                                 <li class="list-group-item p-0">
-                                    <div class="badge bg-danger text-white position-absolute" style="top: 1rem; right: 1rem">1+1</div>
-                                    {% if g.like_users.count != 0 %}
-                                        <div class="badge bg-primary text-white position-absolute" style="top: 2.5rem; right: 1rem">
-                                            <i class="fa-solid fa-thumbs-up"></i>
-                                            <span class="">{{ g.like_users.count }}</span>
-                                        </div>
-                                    {% endif %}
 
-                                    {% comment %} <img id="c_rank_{{ forloop.counter }}" class="position-absolute" style="left: 0.5rem; max-width: 20%;" alt="...">
-                                        <script>document.getElementById('c_rank_{{ forloop.counter }}').src=whatRank({{ forloop.counter }})</script> {% endcomment %}
+                                    <img id="g_rank_{{ forloop.counter }}" src="" class="position-absolute" style="right: 0.5rem; max-width: 20%;" alt="...">
+                                        <script>document.getElementById('g_rank_{{ forloop.counter }}').src=whatRank({{ forloop.counter }})</script>
                                     
-                                    <a href="event/cu/{{ g.get_absolute_url }}">
+                                    <a href="event/gs25/{{ g.get_absolute_url }}">
                                         <img class="card-img-top pt-4" style="height: 7rem; object-fit: contain;" src="{{ g.image }}" alt="..." />
                                     </a>
 
@@ -150,7 +125,7 @@
                                         <div class="text-center">
                                             <!-- Product name-->
                                             <p>
-                                                <a class="text-body" href="event/cu/{{ g.get_absolute_url }}">
+                                                <a class="text-body" href="event/gs25/{{ g.get_absolute_url }}">
                                                     {{ g.name }}
                                                 </a>
                                             </p>
@@ -167,28 +142,21 @@
                         </ul>
                     </div>
                 </div>
-
-                <div class="col p-0" name="seven">
+                
+                <div class="col" name="seven">
                     <div class="card">
                         <div class="card-header text-center">
-                            <a href="event/Seven/"><img style="height: 4rem; object-fit: contain;" src="{% static 'web/logo/seven.png' %}"></a>
+                            <a href="event/seven/"><img style="height: 4rem; object-fit: contain;" src="{% static 'web/logo/seven.png' %}"></a>
                         </div>
-
+                        
                         <ul class="list-group list-group-flush">
                             {% for s in seven %}
                                 <li class="list-group-item p-0">
-                                    <div class="badge bg-danger text-white position-absolute" style="top: 1rem; right: 1rem">1+1</div>
-                                    {% if s.like_users.count != 0 %}
-                                        <div class="badge bg-primary text-white position-absolute" style="top: 2.5rem; right: 1rem">
-                                            <i class="fa-solid fa-thumbs-up"></i>
-                                            <span class="">{{ s.like_users.count }}</span>
-                                        </div>
-                                    {% endif %}
 
-                                    {% comment %} <img id="c_rank_{{ forloop.counter }}" class="position-absolute" style="left: 0.5rem; max-width: 20%;" alt="...">
-                                        <script>document.getElementById('c_rank_{{ forloop.counter }}').src=whatRank({{ forloop.counter }})</script> {% endcomment %}
+                                    <img id="s_rank_{{ forloop.counter }}" src="" class="position-absolute" style="right: 0.5rem; max-width: 20%;" alt="...">
+                                        <script>document.getElementById('s_rank_{{ forloop.counter }}').src=whatRank({{ forloop.counter }})</script>
                                     
-                                    <a href="event/cu/{{ s.get_absolute_url }}">
+                                    <a href="event/seven/{{ s.get_absolute_url }}">
                                         <img class="card-img-top pt-4" style="height: 7rem; object-fit: contain;" src="{{ s.image }}" alt="..." />
                                     </a>
 
@@ -196,7 +164,7 @@
                                         <div class="text-center">
                                             <!-- Product name-->
                                             <p>
-                                                <a class="text-body" href="event/cu/{{ s.get_absolute_url }}">
+                                                <a class="text-body" href="event/seven/{{ s.get_absolute_url }}">
                                                     {{ s.name }}
                                                 </a>
                                             </p>
@@ -212,9 +180,7 @@
                             {% endfor %}
                         </ul>
                     </div>
-                </div>
-            
-                
+                </div> 
             </div>
         </div>
     </div>

@@ -1,4 +1,3 @@
-import datetime
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -11,7 +10,7 @@ import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'conv_event_prj.settings')
 import django
 django.setup()
-from web.models import Product
+from web.models import Gs25
 
 
 # selenium to open Chrome
@@ -47,19 +46,10 @@ for page in range(pages):
         except:
             c_image = "..."
 
-        today = datetime.date.today()
-
-        # DB 작성
-        # 이미 상품이 있으면
-        if Product.objects.filter(name = c_name):
-            p = Product.objects.get(name = c_name)
-            p.created_at = today
-            p.save()
-            
-        # 상품이 없으면
-        else:
+        # 저장
+        if not Gs25.objects.filter(name = c_name):
             if __name__=='__main__':
-                Product(store="GS25", name=c_name, price=c_price, image=c_image, created_at=today).save()
+                Gs25(name=c_name, price=c_price, image=c_image).save()
 
 
     # 다음 페이지로 이동

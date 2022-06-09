@@ -9,18 +9,16 @@
 <header class="bg-light py-5">
     <div class="container px-4 px-lg-5 my-5">
         <div class="text-center text-dark">
-            <h1 class="display-4 font-weight-normal">
-                {% if isSearch %}
-                    {{ q }}
-                {% endif %}
-
-                {% if store == "Seven" %}
-                    세븐일레븐
-                {% else %}
-                    {{ store }}
+            <h1 class="display-4 fw-bolder">
+                {% if store == "gs25" %}
+                    <b>GS25</b>
+                {% elif store == "cu" %}
+                    <b>CU</b>
+                {% elif store == "seven" %}
+                    <b>세븐일레븐</b>
                 {% endif %}
             </h1>
-            <p class="lead fw-normal text-dark-50 mb-0">1+1 행사 상품 목록 ({{ count }})</p>
+            <p class="lead fw-normal text-dark-50 mb-0">1+1 행사 상품 목록</p>
         </div>
     </div>
 </header>
@@ -29,19 +27,17 @@
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-3">
 
-        {% if not isSearch %}
-            <div class="p-3 mb-2 text-dark">
-                <div style="text-align: right">
-                    <a href="?sort=normal">기본</a>
-                    <a class="font-weight-light">&nbsp;|&nbsp;</a>
-                    <a href="?sort=like">추천 순</a>
-                    <a class="font-weight-light">&nbsp;|&nbsp;</a>
-                    <a href="?sort=price_low">가격 낮은 순</a>
-                    <a class="font-weight-light">&nbsp;|&nbsp;</a>
-                    <a href="?sort=price_high">가격 높은 순</a>
-                </div>
+        <div class="p-3 mb-2 text-dark">
+            <div style="text-align: right">
+                <a href="?sort=normal">기본</a>
+                <a class="font-weight-light">&nbsp;|&nbsp;</a>
+                <a href="?sort=like">추천 순</a>
+                <a class="font-weight-light">&nbsp;|&nbsp;</a>
+                <a href="?sort=price_low">가격 낮은 순</a>
+                <a class="font-weight-light">&nbsp;|&nbsp;</a>
+                <a href="?sort=price_high">가격 높은 순</a>
             </div>
-        {% endif %}
+        </div>
 
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
             {% for p in products %}
@@ -55,10 +51,9 @@
                                 <span class="">{{ p.like_users.count }}</span>
                             </div>
                         {% endif %}
-
                         
                         <a href="{{ p.get_absolute_url }}">
-                            <img class="card-img-top pt-4" style="height: 10rem; object-fit: contain;" src="{{ p.image }}" onerror=this.src="{% static 'web/logo/준비중.png' %}" />
+                            <img class="card-img-top pt-4" style="height: 10rem; object-fit: contain;" src="{{ p.image }}" alt="..." />
                         </a>
 
                         <!-- Product details-->

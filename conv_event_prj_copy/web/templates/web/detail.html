@@ -21,6 +21,7 @@
         {% endif %}
         
         <div class="row align-items-center">
+            
             <div class="col-md-4">
                 <img class="card-img-top mb-5 mb-md-0" src="{{ products.image }}" alt="..." />
             </div>
@@ -47,25 +48,24 @@
                 </a>
             </div>
         </div>
-
-        <hr class="mt-0 mb-4">
-
+        
         <div id="comment-area">
-            </article>
-            <!-- Comments section-->
-            <section class="mb-5">
-                <div>
-                    <div class="card-body p-0">
-                        <!-- Comment form-->
-                        <div class="comment-area">
-                            
+        </article>
+        <!-- Comments section-->
+        <section class="mb-5">
+            <div>
+                <div class="card-body">
+                    <!-- Comment form-->
+                    <div class="comment-area">
+                        
+                            {% if store == "cu" %}
                                 <div class="mb-4">
-                                    <i class="fa-solid fa-comment"></i>&nbsp;<p style="display:inline;">댓글({{ comment_count }})</p>
+                                    <i class="fa-solid fa-comment"></i>&nbsp;<p style="display:inline;">댓글({{ comment_model }})</p>
                                 </div>
-                                {% if products.comment_set.exists %}
-                                    {% for comment in products.comment_set.iterator %}
+                                {% if products.cu_comment_set.exists %}
+                                    {% for comment in products.cu_comment_set.iterator %}
                                         <div class="media mb-4" id="comment-{{ comment.pk }}">
-                                            <img class="d-flex mr-3 rounded-circle" style="height: 4rem;" src="https://happy-aging.co.kr/common/img/default_profile.png" alt="">
+                                            <img class="d-flex mr-3 rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="">
                                             <div class="media-body border-bottom border-gray">
                                                 <p style="display:inline;" class="m-0 font-weight-bold">{{ comment.author.username }}&nbsp;<small class="text-muted">{{ comment.created_at|date:'Y-m-d' }}</small></p>
 
@@ -83,7 +83,36 @@
                                     {% endfor %}
                                 {% endif %}
 
-                                {% if user.is_authenticated %}
+                            {% elif store == "gs25" %}
+                                {% if products.gs25_comment_set.exists %}
+                                    <h5 class="card-header">Leave a Comment:</h5>
+                                    {% for comment in products.gs25_comment_set.iterator %}
+                                        <div class="media mb-4" id="comment-{{ comment.pk }}">
+                                            <img class="d-flex mr-3 rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="">
+                                            <div class="media-body">
+                                                <h5 class="mt-0">{{ comment.author.username }} &nbsp;&nbsp;<small class="text-muted">{{ comment.created_at }}</small></h5>
+                                                <p>{{ comment.content }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+                            {% elif store == "seven" %}
+                                {% if products.seven_comment_set.exists %}
+                                    <h5 class="card-header">Leave a Comment:</h5>
+                                    {% for comment in products.seven_comment_set.iterator %}
+                                        <div class="media mb-4" id="comment-{{ comment.pk }}">
+                                            <img class="d-flex mr-3 rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="">
+                                            <div class="media-body">
+                                                <p class="mt-0">{{ comment.author.username }} &nbsp;&nbsp;<small class="text-muted">{{ comment.created_at }}</small></p>
+                                                <p>{{ comment.content }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+
+                            {% if user.is_authenticated %}
                                     <form id="comment-form" method="POST" action="new_comment/">
                                         {% csrf_token %}
                                         <div class="form-group">
@@ -95,11 +124,13 @@
                                     </form>
                             {% endif %}
 
+                            
                         </div>
                     </div>
                 </div>
-            </section>
-        </div>
+            </div>
+        </section>
+    </div>
 
     </div>
 </section>

@@ -8,7 +8,5 @@ urlpatterns = [
     path('', views.home, name="home"),
     path('event/', include("web.urls")),
 
-    path('accounts/', include('allauth.urls'), name="google"),
-
-    path('search/', views.search, name='search'),
+    path('accounts/', include('allauth.urls'), name="google"), 
 ]

@@ -1,4 +1,3 @@
-import datetime
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -11,7 +10,7 @@ import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'conv_event_prj.settings')
 import django
 django.setup()
-from web.models import Product
+from web.models import Cu
 
 
 # selenium to open Chrome
@@ -46,18 +45,10 @@ for products in prodcuts_ul:
         c_price = product.find_element(By.XPATH, 'a/div[@class="prod_wrap"]/div[@class="prod_text"]/div[@class="price"]/strong').text
         c_price = int(re.sub('[^0-9]', '', c_price))
         c_image = product.find_element(By.XPATH, 'a/div[@class="prod_wrap"]/div[@class="prod_img"]/img').get_attribute("src")
-        today = datetime.date.today()
 
         # DB 작성
-        # 이미 상품이 있으면
-        if Product.objects.filter(name = c_name):
-            p = Product.objects.get(name = c_name)
-            p.created_at = today
-            p.save()
-            
-        # 상품이 없으면
-        else:
+        if not Cu.objects.filter(name = c_name):
             if __name__=='__main__':
-                Product(store="CU", name=c_name, price=c_price, image=c_image, created_at=today).save()
+                Cu(name=c_name, price=c_price, image=c_image).save()
 
 driver.quit()
