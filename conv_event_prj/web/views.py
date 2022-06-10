@@ -1,8 +1,7 @@
-from os import environ
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .models import Cu, Gs25, Product, Seven, Comment
+from .models import Product, Comment
 from django.db.models import Count
 from django.contrib import messages
 
@@ -21,40 +20,8 @@ def home(request):
         }
     )
 
-def setStore(store):
-    if store == "gs25":
-        dbName = Gs25
-    elif store == "cu":
-        dbName = Cu
-    elif store == "seven":
-        dbName = Seven
-
-    return dbName
-
-def setFrom(store):
-    if store == "gs25":
-        CommentForm = Gs25_CommentForm
-    elif store == "cu":
-        CommentForm = Cu_CommentForm
-    elif store == "seven":
-        CommentForm = Seven_CommentForm
-    
-    return CommentForm
-
-def setComment(store):
-    if store == "gs25":
-        CommentForm = Gs25_comment
-    elif store == "cu":
-        CommentForm = Cu_comment
-    elif store == "seven":
-        CommentForm = Seven_comment
-    
-    return CommentForm
-
 def product(request, store):
-
     products = Product.objects.filter(store=store)
-
     sort = request.GET.get('sort','')
 
     if sort:
@@ -74,8 +41,6 @@ def product(request, store):
     )
     
 def detail(request, pk, store):
-
-    # products = Product.objects.get(pk=pk)
     products = get_object_or_404(Product, pk=pk)
     return render(request, 'web/detail.html',
         {
@@ -86,8 +51,7 @@ def detail(request, pk, store):
         }    
     )
 
-def like_post(request, pk, store):
-
+def like(request, pk, store):
     if request.user.is_authenticated:
         product = get_object_or_404(Product, pk = pk)
 
@@ -100,7 +64,6 @@ def like_post(request, pk, store):
     return redirect('detail', store, pk)
 
 def new_comment(request, pk, store):
-
     if request.user.is_authenticated:
         post = get_object_or_404(Product, pk=pk)
 

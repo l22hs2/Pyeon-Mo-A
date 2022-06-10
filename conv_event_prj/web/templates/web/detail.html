@@ -60,7 +60,7 @@
                         <div class="comment-area">
                             
                                 <div class="mb-4">
-                                    <i class="fa-solid fa-comment"></i>&nbsp;<p style="display:inline;">댓글({{ comment_count }})</p>
+                                    <i class="fa-solid fa fa-comment-dots"></i>&nbsp;<p style="display:inline;">댓글({{ comment_count }})</p>
                                 </div>
                                 {% if products.comment_set.exists %}
                                     {% for comment in products.comment_set.iterator %}

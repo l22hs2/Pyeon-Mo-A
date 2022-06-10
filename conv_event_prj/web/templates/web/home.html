@@ -6,6 +6,28 @@
 
 {% block main_area %}
 
+<header class="bg-light py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-dark">
+            <p class="display-4 font-weight-light mb-1">편의점 행사 정보를</p>
+            <p class="display-4 font-weight-light m-0">한 곳에서! <span class="display-4 font-weight-bold text-primary">편모아</span></p>
+        </div>
+    </div>
+    <form action="{% url 'search' %}" method="post">
+        {% csrf_token %}
+        <div class="container p-0">
+            <div class="col p-0" style="float: none; margin:0 auto; width: 50%;">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="상품명을 입력해 주세요." name="q" value="{{ q }}" aria-describedby="button-addon2">
+                    <div class="input-group-append">
+                    <button class="btn btn-outline-primary" type="submit" id="button-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</header>
+
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-2 mb-5">
  
@@ -22,25 +44,11 @@
                 }
             }
         </script>
-
-        <form action="{% url 'search' %}" method="post">
-            {% csrf_token %}
-            <div class="container p-0">
-                <div class="col w-50 p-0" style="float: none; margin:0 auto;">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="상품명을 입력해 주세요." name="q" value="{{ q }}" aria-describedby="button-addon2">
-                        <div class="input-group-append">
-                        <button class="btn btn-outline-primary" type="submit" id="button-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
         
         {% if recent_comment %}
         
         <div>
-            <h3><b>최근 댓글</b></h3>
+            <h3><b>최근 작성된 댓글</b></h3>
         </div>
 
         <table class="table border-bottom">
@@ -63,7 +71,6 @@
 
         </table>
 
-        {% comment %} <hr> {% endcomment %}
         {% endif %}
 
         

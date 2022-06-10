@@ -9,7 +9,7 @@
 <header class="bg-light py-5">
     <div class="container px-4 px-lg-5 my-5">
         <div class="text-center text-dark">
-            <h1 class="display-4 font-weight-normal">
+            <h1 class="display-4 font-weight-bold">
                 {% if isSearch %}
                     {{ q }}
                 {% endif %}
@@ -20,7 +20,7 @@
                     {{ store }}
                 {% endif %}
             </h1>
-            <p class="lead fw-normal text-dark-50 mb-0">1+1 행사 상품 목록 ({{ count }})</p>
+            <p class="lead fw-normal text-dark-50 mb-0 mt-3">1+1 행사 상품 ({{ count }})</p>
         </div>
     </div>
 </header>
