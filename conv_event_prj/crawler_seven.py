@@ -52,8 +52,9 @@ for num, product in enumerate(prodcuts[1:]):
     # 이미 상품이 있으면
     if Product.objects.filter(name = c_name):
         p = Product.objects.get(name = c_name)
-        p.created_at = today
-        p.save()
+        if p.store == "Seven":
+            p.created_at = today
+            p.save()
         
     # 상품이 없으면
     else:

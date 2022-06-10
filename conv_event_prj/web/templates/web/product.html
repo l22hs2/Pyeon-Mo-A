@@ -6,7 +6,7 @@
 
 {% block main_area %}
 <!-- Header-->
-<header class="bg-light py-5">
+<header class="bg-light py-4">
     <div class="container px-4 px-lg-5 my-5">
         <div class="text-center text-dark">
             <h1 class="display-4 font-weight-bold">
@@ -14,13 +14,18 @@
                     {{ q }}
                 {% endif %}
 
-                {% if store == "Seven" %}
-                    세븐일레븐
-                {% else %}
-                    {{ store }}
+                {% if store == "CU" %}
+                    <img style="height: 8rem; object-fit: contain;" src="{% static 'web/logo/CU.png' %}">
+                {% elif store == "GS25" %}
+                    <img style="height: 8rem; object-fit: contain;" src="{% static 'web/logo/GS25.png' %}">
+                {% elif store == "Seven" %}
+                    <img style="height: 8rem; object-fit: contain;" src="{% static 'web/logo/Seven.png' %}">
                 {% endif %}
             </h1>
-            <p class="lead fw-normal text-dark-50 mb-0 mt-3">1+1 행사 상품 ({{ count }})</p>
+            <h3 class="font-weight-normal text-dark-50 mb-1 mt-3">1+1 행사 상품</h3>
+            <h4 class="font-weight-light">({{ count }}개)</h4>
+            {% comment %} <h2 class="font-weight-normal" style="display:inline;">1+1 행사 상품</h2>
+            <h4 class="font-weight-light" style="display:inline;">({{ count }})</h4> {% endcomment %}
         </div>
     </div>
 </header>
@@ -48,11 +53,25 @@
                 <div class="col mb-5">
                     <div class="card h-100">
                         <!-- Product image-->
+                        
+                        {% if isSearch %}
+                            <div class="position-absolute" style="top: 0.8rem; left: 0.8rem">
+                                {% if p.store == "CU" %}
+                                    <img style="height: 2rem; object-fit: contain;" src="{% static 'web/logo/CU.png' %}">
+                                {% elif p.store == "GS25" %}
+                                    <img style="height: 2rem; object-fit: contain;" src="{% static 'web/logo/GS25.png' %}">
+                                {% elif p.store == "Seven" %}
+                                    <img style="height: 2rem; object-fit: contain;" src="{% static 'web/logo/Seven.png' %}">
+                                {% endif %}
+                            </div>
+                        {% endif %}
+
                         <div class="badge bg-danger text-white position-absolute" style="top: 1rem; right: 1rem">1+1</div>
+
                         {% if p.like_users.count != 0 %}
                             <div class="badge bg-primary text-white position-absolute" style="top: 2.5rem; right: 1rem">
                                 <i class="fa-solid fa-thumbs-up"></i>
-                                <span class="">{{ p.like_users.count }}</span>
+                                <span>{{ p.like_users.count }}</span>
                             </div>
                         {% endif %}
 

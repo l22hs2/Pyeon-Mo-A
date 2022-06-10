@@ -52,8 +52,9 @@ for products in prodcuts_ul:
         # 이미 상품이 있으면
         if Product.objects.filter(name = c_name):
             p = Product.objects.get(name = c_name)
-            p.created_at = today
-            p.save()
+            if p.store == "CU":
+                p.created_at = today
+                p.save()
             
         # 상품이 없으면
         else:

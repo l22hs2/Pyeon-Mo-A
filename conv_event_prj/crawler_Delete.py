@@ -9,13 +9,11 @@ today = datetime.date.today()
 count = 0
 
 products = Product.objects.exclude(created_at = today)
-# products = Product.objects.filter(created_at = today)
-
 
 if products:
     for p in products:
         p.delete()
         count += 1
-    print(f"{count}개 삭제 완료")
+    print(f"{count}개 상품 삭제 완료")
 else:
     print("대상이 존재하지 않습니다")
