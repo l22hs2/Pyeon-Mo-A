@@ -10,7 +10,7 @@ class Product(models.Model):
     price = models.IntegerField()
     image = models.CharField(max_length=200)
     created_at = models.CharField(max_length=100)
-    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="like", blank=True)
+    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="like", blank=True) # 자신 테이블 참조 - 역참조, ORM 및 다대다 활용
 
     def __str__(self):
         return f"[{self.store}] {self.name}"

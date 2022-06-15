@@ -20,7 +20,7 @@ def home(request):
 
 def product(request, store):
     products = Product.objects.filter(store=store)
-    sort = request.GET.get('sort','')
+    sort = request.GET.get('sort','') # 변수값이 없다면 기본값으로 빈값을 반환
     
     if sort:
         if sort == 'price_low':
@@ -28,7 +28,7 @@ def product(request, store):
         elif sort == 'price_high':
             products = products.order_by('-price')
         elif sort == 'like':
-            products = products.annotate(count=Count('like_users')).order_by('-count')
+            products = products.annotate(count=Count('like_users')).order_by('-count') # annotate-count 필드 생성
 
     return render(request, 'web/product.html',
         {
@@ -80,7 +80,7 @@ def new_comment(request, pk, store):
 
 def delete_comment(request, pk, store, pks):
     comment = get_object_or_404(Comment, pk=pks)
-    # product = comment.product
+
     if request.user.is_authenticated and request.user == comment.author:
         comment.delete()
         return redirect('detail', store, pk)
@@ -90,10 +90,8 @@ def delete_comment(request, pk, store, pks):
 
 def search(request):
     products = Product.objects.all()
-
-    q = request.POST.get('q', "")
-
-    products = products.filter(name__icontains=q)
+    q = request.POST.get('q', "") # 변수값이 없다면 기본값으로 빈값을 반환
+    products = products.filter(name__icontains=q) # 대소문자 구분하지 않고 필드에서 인수 검색
 
     return render(request, 'web/product.html',
         {

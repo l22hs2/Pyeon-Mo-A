@@ -8,12 +8,11 @@
 {% block main_area %}
 <!-- Product section-->
 <section class="py-5">
-    
     <div class="container px-4 px-lg-5 my-5">
         <div class="row align-items-center">
             <div class="col-md-4">
-                <div class="badge bg-danger text-white position-absolute" style="top: 2em; right: 2rem"><h6 class="my-0 mx-1">1+1</h6></div>
-                <img class="card-img-top p-3 mb-5 mb-md-0" style="height: 18rem; object-fit: contain;" src="{{ products.image }}" alt="..." />
+                <div class="badge bg-danger text-white position-absolute" style="top: 2rem; right: 2rem"><h6 class="my-0 mx-1">1+1</h6></div>
+                <img class="card-img-top p-3 mb-5 mb-md-0" style="height: 18rem; object-fit: contain;" src="{{ products.image }}" onerror=this.src="{% static 'web/logo/준비중.png' %}" />
             </div>
             <div class="col-md-8">
 
@@ -49,41 +48,41 @@
                     <div class="card-body p-0">
                         <!-- Comment form-->
                         <div class="comment-area">
-                            
-                                <div class="mb-4">
-                                    <i class="fa-solid fa fa-comment-dots"></i>&nbsp;<p style="display:inline;">댓글({{ comment_count }})</p>
-                                </div>
-                                {% if products.comment_set.exists %}
-                                    {% for comment in products.comment_set.iterator %}
-                                        <div class="media mb-4" id="comment-{{ comment.pk }}">
-                                            <img class="d-flex mr-3 rounded-circle" style="height: 4rem;" src="https://happy-aging.co.kr/common/img/default_profile.png" alt="">
-                                            <div class="media-body border-bottom border-gray">
-                                                <p style="display:inline;" class="m-0 font-weight-bold">{{ comment.author.username }}&nbsp;<small class="text-muted">{{ comment.created_at|date:'Y-m-d' }}</small></p>
+                            <div class="mb-4">
+                                <i class="fa-solid fa fa-comment-dots"></i>&nbsp;<p style="display:inline;">댓글({{ comment_count }})</p>
+                            </div>
 
-                                                {% if user == comment.author %}
-                                                    <form action="delete_comment/{{ comment.pk }}" method="POST" class="d-inline">
-                                                        {% csrf_token %}
-                                                        <button type="submit" class="btn btn-link btn-sm">[삭제]</button>
-                                                    </form>
-                                                {% endif %}
+                            {% if products.comment_set.exists %}
+                                {% for comment in products.comment_set.iterator %}
+                                    <div class="media mb-4" id="comment-{{ comment.pk }}">
+                                        <img class="d-flex mr-3 rounded-circle" style="height: 4rem;" src="https://happy-aging.co.kr/common/img/default_profile.png" alt="">
+                                        <div class="media-body border-bottom border-gray">
+                                            <p style="display:inline;" class="m-0 font-weight-bold">{{ comment.author.username }}&nbsp;<small class="text-muted">{{ comment.created_at|date:'Y-m-d' }}</small></p>
 
-                                                <p>{{ comment.content }}</p>
+                                            {% if user == comment.author %}
+                                                <form action="delete_comment/{{ comment.pk }}" method="POST" class="d-inline">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-link btn-sm">[삭제]</button>
+                                                </form>
+                                            {% endif %}
 
-                                            </div>
+                                            <p>{{ comment.content }}</p>
+
                                         </div>
-                                    {% endfor %}
-                                {% endif %}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
 
-                                {% if user.is_authenticated %}
-                                    <form id="comment-form" method="POST" action="new_comment/">
-                                        {% csrf_token %}
-                                        <div class="form-group">
-                                            {{ comment_form }}
-                                        </div>
-                                        <div style="text-align: right">
-                                            <button type="submit" class="btn btn-primary">작성하기</button>
-                                        </div>
-                                    </form>
+                            {% if user.is_authenticated %}
+                                <form id="comment-form" method="POST" action="new_comment/">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        {{ comment_form }}
+                                    </div>
+                                    <div style="text-align: right">
+                                        <button type="submit" class="btn btn-primary">작성하기</button>
+                                    </div>
+                                </form>
                             {% endif %}
 
                         </div>
@@ -91,7 +90,6 @@
                 </div>
             </section>
         </div>
-
     </div>
 </section>
 

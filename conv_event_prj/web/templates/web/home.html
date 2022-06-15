@@ -13,6 +13,7 @@
             <p class="display-4 font-weight-light m-0">한 곳에! <span class="display-4 font-weight-bold text-primary">편모아</span></p>
         </div>
     </div>
+
     <form action="{% url 'search' %}" method="post">
         {% csrf_token %}
         <div class="container p-0">
@@ -20,7 +21,7 @@
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="상품명을 입력해 주세요." minlength="2" id="search-input" name="q" value="{{ q }}" aria-describedby="button-addon2" required>
                     <div class="input-group-append">
-                    <button class="btn btn-outline-primary" type="submit" id="button-addon2" onclick="searchPost();"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        <button class="btn btn-outline-primary" type="submit" id="button-addon2" onclick="searchPost();"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
                 </div>
             </div>
@@ -46,35 +47,32 @@
         </script>
         
         {% if recent_comment %}
-        <div class="mb-3">
-            <h4 class="font-weight-bolder text-body" style="display: inline;"><i class="fa-regular fa-comment-dots text-primary"></i>&nbsp;&nbsp;최근 작성된 댓글</h4>
-        </div>
-        {% comment %} <div class="border-bottom border-gray mb-3 align-middle">
-            
-        </div> {% endcomment %}
+            <div class="mb-3">
+                <h4 class="font-weight-bolder text-body" style="display: inline;"><i class="fa-regular fa-comment-dots text-primary"></i>&nbsp;&nbsp;최근 작성된 댓글</h4>
+            </div>
 
-        <table class="table border-bottom mb-5">
-            <thead>
-                <tr class="bg-light">
-                    <th class="p-2" style="text-align: center" scope="col">편의점</th>
-                    <th class="p-2" style="text-align: center" scope="col">상품명</th>
-                    <th class="p-2" style="text-align: center" scope="col">내용</th>
-                </tr>
-            </thead>
-            {% for rc in recent_comment %}
-            <tbody>
-                <tr class="p-0" style="text-align: center">
-                    {% if rc.get_store_name == "Seven" %}
-                        <td class="align-middle" style="width: 15%">세븐일레븐</td>
-                    {% else %}
-                        <td class="align-middle" style="width: 15%">{{ rc.get_store_name }}</td>
-                    {% endif %}
-                    <td class="align-middle" style="width: 30%"><a class="text-body" href="event/{{ rc.get_store_name }}/{{ rc.get_absolute_url }}">{{ rc.get_product_name }}</a></td>
-                    <td class="align-middle" style="width: 55%">{{ rc.content | truncatechars:35 }}</td>
-                </tr>
-            {% endfor %}    
-            </tbody>
-        </table>
+            <table class="table border-bottom mb-5">
+                <thead>
+                    <tr class="bg-light">
+                        <th class="p-2" style="text-align: center" scope="col">편의점</th>
+                        <th class="p-2" style="text-align: center" scope="col">상품명</th>
+                        <th class="p-2" style="text-align: center" scope="col">내용</th>
+                    </tr>
+                </thead>
+                {% for rc in recent_comment %}
+                <tbody>
+                    <tr class="p-0" style="text-align: center">
+                        {% if rc.get_store_name == "Seven" %}
+                            <td class="align-middle" style="width: 15%">세븐일레븐</td>
+                        {% else %}
+                            <td class="align-middle" style="width: 15%">{{ rc.get_store_name }}</td>
+                        {% endif %}
+                        <td class="align-middle" style="width: 30%"><a class="text-body" href="event/{{ rc.get_store_name }}/{{ rc.get_absolute_url }}">{{ rc.get_product_name }}</a></td>
+                        <td class="align-middle" style="width: 55%"><a class="text-body" href="event/{{ rc.get_store_name }}/{{ rc.get_absolute_url }}">{{ rc.content | truncatechars:35 }}</a></td>
+                    </tr>
+                {% endfor %}    
+                </tbody>
+            </table>
 
         {% endif %}
 
@@ -113,13 +111,12 @@
 
                                     <div class="card-body pt-1 pb-3">
                                         <div class="text-center">
-                                            <!-- Product name-->
                                             <p class="mt-3 mb-1">
                                                 <a class="text-body" href="event/cu/{{ c.get_absolute_url }}">
                                                     {{ c.name }}
                                                 </a>
                                             </p>
-                                            <!-- Product price-->
+
                                             <h5 class="fw-bolder m-1">
                                                 {{ c.price|intcomma }}원
                                             </h5>
@@ -158,13 +155,12 @@
 
                                     <div class="card-body pt-1 pb-3">
                                         <div class="text-center">
-                                            <!-- Product name-->
                                             <p class="mt-3 mb-1">
                                                 <a class="text-body" href="event/cu/{{ g.get_absolute_url }}">
                                                     {{ g.name }}
                                                 </a>
                                             </p>
-                                            <!-- Product price-->
+
                                             <h5 class="fw-bolder m-1">
                                                 {{ g.price|intcomma }}원
                                             </h5>
@@ -203,13 +199,12 @@
 
                                     <div class="card-body pt-1 pb-3">
                                         <div class="text-center">
-                                            <!-- Product name-->
                                             <p class="mt-3 mb-1">
                                                 <a class="text-body" href="event/cu/{{ s.get_absolute_url }}">
                                                     {{ s.name }}
                                                 </a>
                                             </p>
-                                            <!-- Product price-->
+
                                             <h5 class="fw-bolder m-1">
                                                 {{ s.price|intcomma }}원
                                             </h5>

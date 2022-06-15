@@ -58,6 +58,7 @@ for products in prodcuts_ul:
             
         # 상품이 없으면
         else:
+            # 메인 함수 선언
             if __name__=='__main__':
                 Product(store="CU", name=c_name, price=c_price, image=c_image, created_at=today).save()
 
