@@ -74,9 +74,12 @@
                                 <span>{{ p.like_users.count }}</span>
                             </div>
                         {% endif %}
-
                         
-                        <a href="{{ p.get_absolute_url }}">
+                        {% if isSearch %}
+                            <a href="/event/{{ p.store }}/{{ p.get_absolute_url }}">
+                        {% else %}
+                            <a href="{{ p.get_absolute_url }}">
+                        {% endif %}
                             <img class="card-img-top pt-4" style="height: 10rem; object-fit: contain;" src="{{ p.image }}" onerror=this.src="{% static 'web/logo/준비중.png' %}" />
                         </a>
 
@@ -85,7 +88,11 @@
                             <div class="text-center">
                                 <!-- Product name-->
                                 <p>
-                                    <a class="text-body" href="{{ p.get_absolute_url }}">
+                                    {% if isSearch %}
+                                        <a class="text-body" href="/event/{{ p.store }}/{{ p.get_absolute_url }}">
+                                    {% else %}
+                                        <a class="text-body" href="{{ p.get_absolute_url }}">
+                                    {% endif %}
                                         {{ p.name }}
                                     </a>
                                 </p>

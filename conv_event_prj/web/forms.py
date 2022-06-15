@@ -1,5 +1,6 @@
 from .models import Comment
 from django import forms
+from allauth.account.forms import LoginForm
 
 class CommentForm(forms.ModelForm):
     class Meta:
@@ -16,3 +17,10 @@ class CommentForm(forms.ModelForm):
                         }
                     ),
                 }
+
+class LoginForm(LoginForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields["login"].label = ""
+        self.fields["password"].label = ""

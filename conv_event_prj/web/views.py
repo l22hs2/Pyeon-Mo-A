@@ -1,9 +1,7 @@
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .models import Product, Comment
 from django.db.models import Count
-from django.contrib import messages
 
 from .forms import CommentForm
 from django.core.exceptions import PermissionDenied
@@ -23,7 +21,7 @@ def home(request):
 def product(request, store):
     products = Product.objects.filter(store=store)
     sort = request.GET.get('sort','')
-
+    
     if sort:
         if sort == 'price_low':
             products = products.order_by('price')
@@ -60,8 +58,7 @@ def like(request, pk, store):
         else:
             product.like_users.add(request.user)
         return redirect('detail', store, pk)
-    messages.warning(request, '로그인이 필요한 작업입니다')
-    return redirect('detail', store, pk)
+    return redirect("/accounts/login/")
 
 def new_comment(request, pk, store):
     if request.user.is_authenticated:
@@ -94,7 +91,8 @@ def delete_comment(request, pk, store, pks):
 def search(request):
     products = Product.objects.all()
 
-    q = request.POST.get('q', "") 
+    q = request.POST.get('q', "")
+
     products = products.filter(name__icontains=q)
 
     return render(request, 'web/product.html',

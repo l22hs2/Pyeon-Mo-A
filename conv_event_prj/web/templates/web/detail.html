@@ -10,18 +10,9 @@
 <section class="py-5">
     
     <div class="container px-4 px-lg-5 my-5">
-        {% if messages %}
-            {% for message in messages %}
-                
-                <div class="alert alert-warning" role="alert">
-                    <i class="fa-solid fa-lock"></i> &nbsp;
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-        
         <div class="row align-items-center">
             <div class="col-md-4">
+                <div class="badge bg-danger text-white position-absolute" style="top: 2em; right: 2rem"><h6 class="my-0 mx-1">1+1</h6></div>
                 <img class="card-img-top p-3 mb-5 mb-md-0" style="height: 18rem; object-fit: contain;" src="{{ products.image }}" alt="..." />
             </div>
             <div class="col-md-8">

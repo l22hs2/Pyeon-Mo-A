@@ -10,7 +10,7 @@
     <div class="container px-4 px-lg-5 my-5">
         <div class="text-center text-dark">
             <p class="display-4 font-weight-light mb-1">편의점 행사 정보를</p>
-            <p class="display-4 font-weight-light m-0">한 곳에서! <span class="display-4 font-weight-bold text-primary">편모아</span></p>
+            <p class="display-4 font-weight-light m-0">한 곳에! <span class="display-4 font-weight-bold text-primary">편모아</span></p>
         </div>
     </div>
     <form action="{% url 'search' %}" method="post">
@@ -18,9 +18,9 @@
         <div class="container p-0">
             <div class="col p-0" style="float: none; margin:0 auto; width: 50%;">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="상품명을 입력해 주세요." name="q" value="{{ q }}" aria-describedby="button-addon2">
+                    <input type="text" class="form-control" placeholder="상품명을 입력해 주세요." minlength="2" id="search-input" name="q" value="{{ q }}" aria-describedby="button-addon2" required>
                     <div class="input-group-append">
-                    <button class="btn btn-outline-primary" type="submit" id="button-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <button class="btn btn-outline-primary" type="submit" id="button-addon2" onclick="searchPost();"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
                 </div>
             </div>
@@ -97,11 +97,10 @@
                         <ul class="list-group list-group-flush">
                             {% for c in cu %}
                                 <li class="list-group-item p-0">
-                                    <div class="badge bg-danger text-white position-absolute" style="top: 1rem; right: 1rem">1+1</div>
+                                    <div class="badge bg-danger text-white position-absolute" style="top: 1rem; right: 1rem"><h6 class="my-0 mx-1">1+1</h6></div>
                                     {% if c.like_users.count != 0 %}
-                                        <div class="badge bg-primary text-white position-absolute" style="top: 2.5rem; right: 1rem">
-                                            <i class="fa-solid fa-thumbs-up"></i>
-                                            <span class="">{{ c.like_users.count }}</span>
+                                        <div class="badge bg-primary text-white position-absolute" style="top: 3rem; right: 1rem">
+                                            <h6 class="my-0 mx-1"><i class="fa-solid fa-thumbs-up">&nbsp;</i>{{ c.like_users.count }}</h6>
                                         </div>
                                     {% endif %}
 
@@ -143,11 +142,10 @@
                         <ul class="list-group list-group-flush">
                             {% for g in gs25 %}
                                 <li class="list-group-item p-0">
-                                    <div class="badge bg-danger text-white position-absolute" style="top: 1rem; right: 1rem">1+1</div>
+                                    <div class="badge bg-danger text-white position-absolute" style="top: 1rem; right: 1rem"><h6 class="my-0 mx-1">1+1</h6></div>
                                     {% if g.like_users.count != 0 %}
-                                        <div class="badge bg-primary text-white position-absolute" style="top: 2.5rem; right: 1rem">
-                                            <i class="fa-solid fa-thumbs-up"></i>
-                                            <span class="">{{ g.like_users.count }}</span>
+                                        <div class="badge bg-primary text-white position-absolute" style="top: 3rem; right: 1rem">
+                                            <h6 class="my-0 mx-1"><i class="fa-solid fa-thumbs-up">&nbsp;</i>{{ g.like_users.count }}</h6>
                                         </div>
                                     {% endif %}
 
@@ -189,11 +187,10 @@
                         <ul class="list-group list-group-flush">
                             {% for s in seven %}
                                 <li class="list-group-item p-0">
-                                    <div class="badge bg-danger text-white position-absolute" style="top: 1rem; right: 1rem">1+1</div>
+                                    <div class="badge bg-danger text-white position-absolute" style="top: 1rem; right: 1rem"><h6 class="my-0 mx-1">1+1</h6></div>
                                     {% if s.like_users.count != 0 %}
-                                        <div class="badge bg-primary text-white position-absolute" style="top: 2.5rem; right: 1rem">
-                                            <i class="fa-solid fa-thumbs-up"></i>
-                                            <span class="">{{ s.like_users.count }}</span>
+                                        <div class="badge bg-primary text-white position-absolute" style="top: 3rem; right: 1rem">
+                                            <h6 class="my-0 mx-1"><i class="fa-solid fa-thumbs-up">&nbsp;</i>{{ s.like_users.count }}</h6>
                                         </div>
                                     {% endif %}
 

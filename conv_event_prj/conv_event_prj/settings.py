@@ -64,7 +64,7 @@ ROOT_URLCONF = 'conv_event_prj.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -144,3 +144,10 @@ SITE_ID = 1
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 LOGIN_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_ON_GET = True
+SOCIALACCOUNT_LOGIN_ON_GET=True
+
+# ACCOUNT_FORMS = {'signup': 'path.to.custom.singup.form'}
+
+
+ACCOUNT_FORMS = {'login': 'web.forms.LoginForm'}
