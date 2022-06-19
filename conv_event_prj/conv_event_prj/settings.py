@@ -151,3 +151,5 @@ SOCIALACCOUNT_LOGIN_ON_GET=True
 
 
 ACCOUNT_FORMS = {'login': 'web.forms.LoginForm'}
+
+ALLOWED_HOSTS = ['*']
